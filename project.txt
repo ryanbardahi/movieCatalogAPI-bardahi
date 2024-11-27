@@ -1,0 +1,47 @@
+Objective: ExpressJS API - Movie Catalog API
+
+1. What is the main objective of the project?
+To develop a movie catalog API where users can browse and interact with movies by adding comments, and admins can manage the catalog with CRUD operations.
+
+2. Who are the target users of the application?
+Users: Individuals interested in browsing movies, viewing details, and sharing comments.
+Admin Users: Individuals responsible for managing the movie catalog (creating, updating, and deleting movies).
+
+3. What are the core features or functionalities required?
+The core features involve CRUD operations:
+
+Create: Admins can add new movies to the catalog.
+Read: Users and admins can retrieve movies (all or by ID).
+Update: Admins can update movie details.
+Delete: Admins can delete movies.
+Comments: Authenticated users can add comments to movies and retrieve movie comments.
+
+4. What data will the application need to store and manage?
+a. Users: Email, password, and a boolean isAdmin property.
+b. Movies:
+title: Movie title.
+director: Movie director.
+year: Release year.
+description: A brief synopsis.
+genre: Movie genre.
+comments: Array of comment subdocuments (e.g., { userId, commentText }).
+
+5. Are there any specific technical requirements or constraints?
+The backend will use Express.js for the API, MongoDB with Mongoose for data management, and follow RESTful Architecture principles.
+Routes and endpoints must handle HTTP methods with appropriate status codes.
+
+6. What are the security and authentication requirements?
+JWT (JSON Web Tokens) for user authentication and session management.
+Bcrypt for password hashing to ensure secure user credentials.
+
+7. What are your routes and controllers?
+Routes and corresponding controller actions:
+/register (registerUser) Register a new user with email, password, and isAdmin.
+/login (loginUser) Log in a user and return a JWT token.
+/addMovie (addMovie) Add a new movie (Admin only).
+/getMovies (getAllMovies) Retrieve all movies in the catalog.
+/getMovie/:id (getMovieById) Retrieve a single movie by its ID.
+/updateMovie/:id (updateMovie) Update movie details (Admin only).
+/deleteMovie/:id (deleteMovie) Delete a movie by its ID (Admin only).
+/addComment/:id (addMovieComment) Add a comment to a movie.
+/getComments/:id (getMovieComments) Retrieve all comments for a movie.
