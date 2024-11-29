@@ -11,10 +11,12 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 const corsOptions = {
-    origin: [`http://localhost:3000`], //allows request from this origin (client's URL)
-    //methods: ['GET','POST'],
-    credentials: true, //allow credentials (e.g. authorization headers)
-    optionsSuccessStatus:200 //provides status code to use for successful OPTIONS requests
+    origin: [
+        'http://localhost:3000', // Development frontend
+        'https://movie-app-client-ebon.vercel.app/' // Production frontend
+    ],
+    credentials: true, // Allow credentials (e.g., cookies, authorization headers)
+    optionsSuccessStatus: 200 // For legacy browser support
 };
 app.use(cors(corsOptions));
 
