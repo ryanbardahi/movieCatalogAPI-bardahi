@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 const corsOptions = {
-    origin: [`http://localhost:8000`], //allows request from this origin (client's URL)
+    origin: [`http://localhost:3000`], //allows request from this origin (client's URL)
     //methods: ['GET','POST'],
     credentials: true, //allow credentials (e.g. authorization headers)
     optionsSuccessStatus:200 //provides status code to use for successful OPTIONS requests
