@@ -103,3 +103,17 @@ exports.addMovieComment = async (req, res) => {
         res.status(400).json({ error: 'Failed to add comment' });
     }
 };
+
+exports.getMovieComments = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const movie = await Movie.findById(id).select('comments');
+        if (!movie) {
+            return res.status(404).json({ error: 'Movie not found' });
+        }
+        res.status(200).json({ comments: movie.comments });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch comments' });
+    }
+};
