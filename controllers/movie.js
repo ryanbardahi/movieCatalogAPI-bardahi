@@ -14,7 +14,10 @@ exports.addMovie = async (req, res) => {
 
 exports.getAllMovies = async (req, res) => {
     try {
-        const movies = await Movie.find();
+        const movies = await Movie.find()
+            .populate('comments.userId', 'email')
+            .lean();
+
         res.status(200).json({ movies });
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch movies' });
@@ -25,8 +28,12 @@ exports.getMovieById = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const movie = await Movie.findById(id);
+        const movie = await Movie.findById(id)
+            .populate('comments.userId', 'email')
+            .lean();
+
         if (!movie) return res.status(404).json({ error: 'Movie not found' });
+
         res.status(200).json(movie);
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch movie' });
@@ -77,15 +84,22 @@ exports.addMovieComment = async (req, res) => {
     }
 };
 
-exports.getMovieComments = async (req, res) => {
+exports.addMovieComment = async (req, res) => {
     const { id } = req.params;
+    const { comment } = req.body;
 
     try {
-        const movie = await Movie.findById(id).select('comments');
+        const movie = await Movie.findById(id);
         if (!movie) return res.status(404).json({ error: 'Movie not found' });
 
-        res.status(200).json({ comments: movie.comments });
+        movie.comments.push({ userId: req.user.userId, comment });
+        await movie.save();
+
+        const updatedMovie = await Movie.findById(id)
+            .populate('comments.userId', 'email');
+
+        res.status(200).json({ message: 'Comment added successfully', updatedMovie });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch comments' });
+        res.status(400).json({ error: 'Failed to add comment' });
     }
 };
